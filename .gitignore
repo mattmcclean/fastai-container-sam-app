@@ -246,3 +246,4 @@ $RECYCLE.BIN/
 *.pkl
 *.toml
 .aws-sam/*
+fastai-env/*

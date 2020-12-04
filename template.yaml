@@ -1,21 +1,21 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  fastai-sam-app
+  fastai-container-sam-app
 
-  Sample SAM Template for fastai-sam-app
+  Sample SAM Template for fastai-container-sam-app
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 60
+    Timeout: 30
+    MemorySize: 1048
 
 Resources:
   FastaiInferenceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       PackageType: Image
-      MemorySize: 3840
       Events:
         FastaiInference:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -24,7 +24,7 @@ Resources:
             Method: post
     Metadata:
       DockerTag: python3.7-v1
-      DockerContext: ./fastai
+      DockerContext: ./pets
       Dockerfile: Dockerfile
 
 Outputs:

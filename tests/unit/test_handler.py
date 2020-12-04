@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from hello_world import app
+from pets import app
 
 
 @pytest.fixture()
@@ -10,7 +10,7 @@ def apigw_event():
     """ Generates API GW Event"""
 
     return {
-        "body": '{ "test": "body"}',
+        "body": '{ "url": "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12225358/Pug-On-White-01.jpg"}',
         "resource": "/{proxy+}",
         "requestContext": {
             "resourceId": "123456",
@@ -68,6 +68,5 @@ def test_lambda_handler(apigw_event, mocker):
     data = json.loads(ret["body"])
 
     assert ret["statusCode"] == 200
-    assert "message" in ret["body"]
-    assert data["message"] == "hello world"
-    # assert "location" in data.dict_keys()
+    assert "class" in ret["body"]
+    assert data["class"] == "pug"
