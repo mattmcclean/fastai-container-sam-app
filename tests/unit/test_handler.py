@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from pets import app
+from vision import app
 
 
 @pytest.fixture()

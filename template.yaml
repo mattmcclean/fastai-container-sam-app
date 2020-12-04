@@ -12,31 +12,31 @@ Globals:
     MemorySize: 1048
 
 Resources:
-  FastaiInferenceFunction:
+  FastaiVisionFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       PackageType: Image
       Events:
-        FastaiInference:
+        FastaiVision:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /invocations
             Method: post
     Metadata:
       DockerTag: python3.7-v1
-      DockerContext: ./pets
+      DockerContext: ./vision
       Dockerfile: Dockerfile
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  FastaiInferenceApi:
+  FastaiVisionApi:
     Description: "API Gateway endpoint URL for Prod stage for fastai inference function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/invocations/"
-  FastaiInferenceFunction:
+  FastaiVisionFunction:
     Description: "fastai inference Lambda Function ARN"
-    Value: !GetAtt FastaiInferenceFunction.Arn
-  FastaiInferenceFunctionIamRole:
+    Value: !GetAtt FastaiVisionFunction.Arn
+  FastaiVisionFunctionIamRole:
     Description: "Implicit IAM Role created for fastai inference function"
-    Value: !GetAtt FastaiInferenceFunctionRole.Arn
+    Value: !GetAtt FastaiVisionFunctionRole.Arn
