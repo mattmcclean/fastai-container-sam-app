@@ -1,0 +1,34 @@
+FROM public.ecr.aws/lambda/python:3.7
+
+RUN python3.7 -m pip install --no-cache-dir torch==1.7.0+cpu torchvision==0.8.1+cpu fastai \
+    -f https://download.pytorch.org/whl/torch_stable.html \
+    && yum install -y \
+    freetype-devel \
+    gcc \
+    ghostscript \
+    lcms2-devel \
+    libffi-devel \
+    libimagequant-devel \
+    libjpeg-devel \
+    libraqm-devel \
+    libtiff-devel \
+    libwebp-devel \
+    make \
+    openjpeg2-devel \
+    rh-python36 \
+    rh-python36-python-virtualenv \
+    sudo \
+    tcl-devel \
+    tk-devel \
+    tkinter \
+    which \
+    xorg-x11-server-Xvfb \
+    zlib-devel \
+    && yum clean all \
+    && python3.7 -m pip uninstall -y pillow \
+    && CC="cc -mavx2" python3.7 -m pip install --force-reinstall --no-cache-dir --compile  pillow-simd
+
+COPY app.py export.pkl ./
+
+# Command can be overwritten by providing a different command in the template directly.
+CMD ["app.lambda_handler"]
