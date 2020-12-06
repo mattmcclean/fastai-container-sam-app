@@ -1,7 +1,9 @@
 import json
+import time
 from io import BytesIO
 
 import requests
+import numpy as np
 from fastai.vision.all import load_learner, PILImage
 
 learn = load_learner('export.pkl')
@@ -37,8 +39,12 @@ def lambda_handler(event, context):
     print("Load image into memory")
     img = PILImage.create(BytesIO(response.content))
     print("Doing forward pass")
+    start = time.time()
     pred,pred_idx,probs = learn.predict(img)
+    end = time.time()
+    inference_time = np.round((end - start) * 1000, 2)
     print(f'class: {pred}, probability: {probs[pred_idx]:.04f}')
+    print(f'Inference time is: {str(inference_time)} ms')
     return {
         "statusCode": 200,
         "body": json.dumps(
